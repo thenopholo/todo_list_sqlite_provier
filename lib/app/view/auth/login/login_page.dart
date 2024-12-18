@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SpalshPage extends StatelessWidget {
-  const SpalshPage({super.key});
+class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SpalshPage'),
+        title: const Text('Login'),
       ),
       body: Container(),
     );

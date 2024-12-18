@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todolist/app/core/modules/splash/spalsh_page.dart';
+import 'package:flutter_todolist/app/view/splash/spalsh_page.dart';
+import 'package:provider/provider.dart';
 
 import 'core/database/sqlite_adm_connection.dart';
+import 'view/auth/auth_module.dart';
+import 'view/auth/login/login_controller.dart';
+import 'view/auth/login/login_page.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -27,10 +31,14 @@ class _AppWidgetState extends State<AppWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter TodoList',
-      home: SpalshPage(),
+      initialRoute: '/login',
+      routes: {
+        ...AuthModule().routes,
+      },
+      home: const SpalshPage(),
     );
   }
 }
