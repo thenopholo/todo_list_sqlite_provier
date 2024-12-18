@@ -9,11 +9,14 @@ class AppModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      Provider(
-        create: (_) => SqliteConnectionFactory(),
-        lazy: false,
-      ),
-    ], child: AppWidget());
+    return MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => SqliteConnectionFactory(),
+          lazy: false,
+        ),
+      ],
+      child: AppWidget(),
+    );
   }
 }
