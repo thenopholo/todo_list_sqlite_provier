@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 
+import '../../../core/widget/todo_list_field.dart';
 import '../../../core/widget/todo_list_logo.dart';
 
 class LoginPage extends StatelessWidget {
@@ -24,14 +25,20 @@ class LoginPage extends StatelessWidget {
                   children: [
                     const SizedBox(height: 48),
                     const TodoListLogo(),
+                    const SizedBox(height: 24),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 28),
                       child: Form(
                         child: Column(
                           children: [
-                            TextFormField(),
+                            TodoListField(
+                              label: 'Email',
+                            ),
                             const SizedBox(height: 20),
-                            TextFormField(),
+                            TodoListField(
+                              label: 'Senha',
+                              obscureText: true,
+                            ),
                             const SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,9 +49,9 @@ class LoginPage extends StatelessWidget {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {},
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: const Text('Entrar'),
+                                  child: const Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: Text('Entrar'),
                                   ),
                                 ),
                               ],
