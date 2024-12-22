@@ -1,0 +1,30 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "flutter-todolist-21454",
+          "appId": "1:280513802814:android:395ccd77a34b8d3d6f576f",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "flutter-todolist-21454",
+          "appId": "1:280513802814:ios:9b3df23def2517ec6f576f",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flutter-todolist-21454",
+          "configurations": {
+            "android": "1:280513802814:android:395ccd77a34b8d3d6f576f",
+            "ios": "1:280513802814:ios:9b3df23def2517ec6f576f"
+          }
+        }
+      }
+    }
+  }
+}

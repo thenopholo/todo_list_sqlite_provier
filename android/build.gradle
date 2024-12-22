@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {        
+        classpath 'com.google.gms:google-services:4.3.8'
+    }
+}
+
 allprojects {
     repositories {
         google()
@@ -5,11 +15,11 @@ allprojects {
     }
 }
 
+// Caso já tenha as configurações adicionais:
 rootProject.buildDir = "../build"
+
 subprojects {
     project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
     project.evaluationDependsOn(":app")
 }
 
