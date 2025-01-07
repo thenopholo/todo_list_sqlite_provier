@@ -14,10 +14,14 @@ class DefaultListenerNotifier {
   void listener({
     required BuildContext context,
     required SuccessVoidCallback successCallback,
+    AwaysVoidCallback? awaysCallback,
     ErrorvoidCallback? errorCallback,
   }) {
     notifier.addListener(
       () {
+        if (awaysCallback != null) {
+          awaysCallback(notifier, this);
+        }
         if (notifier.isLoading) {
           Loader.show(context);
         } else {
@@ -45,4 +49,7 @@ typedef SuccessVoidCallback = void Function(
     DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
 
 typedef ErrorvoidCallback = void Function(
+    DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
+
+typedef AwaysVoidCallback = void Function(
     DefaultChangeNotifier notifier, DefaultListenerNotifier listenerNotifier);
