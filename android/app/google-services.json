@@ -7,12 +7,25 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:280513802814:android:395ccd77a34b8d3d6f576f",
+        "mobilesdk_app_id": "1:280513802814:android:ef39070a0cdcd5bd6f576f",
         "android_client_info": {
           "package_name": "br.com.tdnd.flutter_todolist"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "280513802814-vt2oqlpqohvqf4qm3dnusuf4icriecla.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.tdnd.flutter_todolist",
+            "certificate_hash": "f4ee94834c8376225d12c0e787bde5408abccb12"
+          }
+        },
+        {
+          "client_id": "280513802814-3dcgj1clqnko9m9ont02880md9ptvaho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyA4vcjNlaDC0bIkqYakzHWbx5BEC3xkhv4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "280513802814-3dcgj1clqnko9m9ont02880md9ptvaho.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "280513802814-7f8v38k6fgarjcrbnahv5a3fpdsv9e85.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.com.tdnd.flutterTodolist"
+              }
+            }
+          ]
         }
       }
     }

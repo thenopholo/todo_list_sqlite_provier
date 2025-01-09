@@ -1,10 +1,7 @@
 import 'dart:developer';
 
-import 'package:flutter/material.dart';
-
 import '../../../core/exception/auth_exception.dart';
 import '../../../core/notifier/default_change_notifier.dart';
-import '../../../core/utils/message.dart';
 import '../../../services/user_service.dart';
 
 class LoginController extends DefaultChangeNotifier {
@@ -15,6 +12,28 @@ class LoginController extends DefaultChangeNotifier {
       : _userService = userService;
 
   bool get hasInfo => infoMessage != null;
+
+  Future<void> googleLogin() async {
+    try {
+      showLoadingAndReset();
+      infoMessage = null;
+      notifyListeners();
+      final user = await _userService.googleLogin();
+
+      if (user != null) {
+        success();
+      } else {
+        await _userService.googleLogout();
+        setError('Erro ao realizar o login com o Google.');
+      }
+    } on AuthException catch (e) {
+      await _userService.googleLogout();
+      setError(e.message);
+    } finally {
+      hideLoading();
+      notifyListeners();
+    }
+  }
 
   Future<void> login(String email, String password) async {
     try {

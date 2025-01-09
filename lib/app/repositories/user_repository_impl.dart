@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../core/exception/auth_exception.dart';
 import './user_repository.dart';
@@ -78,5 +79,65 @@ class UserRepositoryImpl implements UserRepository {
       log('Erro: ${e.code}', error: e, stackTrace: s);
       throw AuthException(message: 'Erro ao resetar a senha');
     }
+  }
+
+  @override
+  Future<User?> googleLogin() async {
+    try {
+      final googleSignIn = GoogleSignIn();
+      final googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) {
+        throw AuthException(
+            message: 'Login com Google cancelado pelo usuário.');
+      }
+
+      final email = googleUser.email.toLowerCase().trim();
+      // ignore: deprecated_member_use
+      final loginMethods = await _auth.fetchSignInMethodsForEmail(email);
+
+      if (loginMethods.contains('password')) {
+        throw AuthException(
+          message:
+              'Você já possui um cadastro com esse e-mail. Por favor, utilize o login com e-mail e senha, ou clique em esqueci minha senha.',
+        );
+      }
+
+      if (loginMethods.contains('google.com')) {
+        final googleAuth = await googleUser.authentication;
+        final firebaseCredential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        var userCredential =
+            await _auth.signInWithCredential(firebaseCredential);
+        return userCredential.user;
+      }
+
+      throw AuthException(
+          message: 'Erro: Conta já existente com outro método de login.');
+    } on FirebaseAuthException catch (e, s) {
+      log('Erro ao logar com Google: ${e.code}', error: e, stackTrace: s);
+
+      if (e.code == 'account-exists-with-different-credential') {
+        final existingMethods =
+            await _auth.
+            // ignore: deprecated_member_use
+            fetchSignInMethodsForEmail(e.email ?? '');
+        throw AuthException(
+          message:
+              'Você já possui um cadastro com esse e-mail, mas com outro provedor. Métodos disponíveis: $existingMethods',
+        );
+      } else {
+        throw AuthException(message: 'Erro ao realizar o login com o Google');
+      }
+    }
+  }
+
+  @override
+  Future<void> googleLogout() async {
+    await GoogleSignIn().signOut();
+    _auth.signOut();
   }
 }
