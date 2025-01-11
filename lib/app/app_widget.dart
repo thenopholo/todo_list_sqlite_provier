@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_todolist/app/view/splash/spalsh_page.dart';
 
 import 'core/database/sqlite_adm_connection.dart';
+import 'core/navigator/todo_list_navigator.dart';
 import 'core/ui/todo_list_ui_config.dart';
 import 'view/auth/auth_module.dart';
+import 'view/home/home_module.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -35,8 +37,10 @@ class _AppWidgetState extends State<AppWidget> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter TodoList',
       theme: TodoListUiConfig.theme,
+      navigatorKey: TodoListNavigator.navigatorKey,
       routes: {
         ...AuthModule().routes,
+        ...HomeModule().routes,
       },
       home: const SpalshPage(),
     );

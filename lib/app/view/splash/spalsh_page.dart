@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../core/widget/todo_list_logo.dart';
+
 class SpalshPage extends StatelessWidget {
   const SpalshPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('SpalshPage'),
-      ),
+    return const Scaffold(
       body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.of(context).pushNamed('/login');
-          },
-          child: const Text('Go To Login'),
-        ),
+        child: TodoListLogo(),
       ),
     );
   }

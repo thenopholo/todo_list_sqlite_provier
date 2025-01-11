@@ -83,51 +83,36 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<User?> googleLogin() async {
+    List<String> loginMethods;
     try {
       final googleSignIn = GoogleSignIn();
       final googleUser = await googleSignIn.signIn();
 
-      if (googleUser == null) {
-        throw AuthException(
-            message: 'Login com Google cancelado pelo usuário.');
+      if (googleUser != null) {
+        loginMethods = await _auth.fetchSignInMethodsForEmail(googleUser.email);
+
+        if (loginMethods.contains('password')) {
+          throw AuthException(
+            message:
+                'E-mail já cadastrado com senha. Utilize o login com e-mail e senha.',
+          );
+        } else {
+          final googleAuth = await googleUser.authentication;
+          final firebaseCredentialProvider = GoogleAuthProvider.credential(
+            accessToken: googleAuth.accessToken,
+            idToken: googleAuth.idToken,
+          );
+          var userCredential =
+              await _auth.signInWithCredential(firebaseCredentialProvider);
+          return userCredential.user;
+        }
       }
-
-      final email = googleUser.email.toLowerCase().trim();
-      // ignore: deprecated_member_use
-      final loginMethods = await _auth.fetchSignInMethodsForEmail(email);
-
-      if (loginMethods.contains('password')) {
-        throw AuthException(
-          message:
-              'Você já possui um cadastro com esse e-mail. Por favor, utilize o login com e-mail e senha, ou clique em esqueci minha senha.',
-        );
-      }
-
-      if (loginMethods.contains('google.com')) {
-        final googleAuth = await googleUser.authentication;
-        final firebaseCredential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken,
-          idToken: googleAuth.idToken,
-        );
-
-        var userCredential =
-            await _auth.signInWithCredential(firebaseCredential);
-        return userCredential.user;
-      }
-
-      throw AuthException(
-          message: 'Erro: Conta já existente com outro método de login.');
     } on FirebaseAuthException catch (e, s) {
-      log('Erro ao logar com Google: ${e.code}', error: e, stackTrace: s);
-
+      log('Erro: ${e.code}', error: e, stackTrace: s);
       if (e.code == 'account-exists-with-different-credential') {
-        final existingMethods =
-            await _auth.
-            // ignore: deprecated_member_use
-            fetchSignInMethodsForEmail(e.email ?? '');
         throw AuthException(
           message:
-              'Você já possui um cadastro com esse e-mail, mas com outro provedor. Métodos disponíveis: $existingMethods',
+              'E-mail já cadastrado com senha. Utilize o login com e-mail e senha.',
         );
       } else {
         throw AuthException(message: 'Erro ao realizar o login com o Google');
@@ -136,8 +121,18 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<void> googleLogout() async {
+  Future<void> logout() async {
     await GoogleSignIn().signOut();
     _auth.signOut();
+  }
+  
+  @override
+  Future<void> updateDisplayName(String name) async {
+    final user =  _auth.currentUser;
+    if(user != null) {
+      user.updateDisplayName(name);
+      user.reload();
+    }
+    
   }
 }
