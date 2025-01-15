@@ -7,7 +7,7 @@ import 'package:validatorless/validatorless.dart';
 import '../../../core/notifier/default_listener_notifier.dart';
 import '../../../core/widget/todo_list_field.dart';
 import '../../../core/widget/todo_list_logo.dart';
-import '../../../core/ui/theme_extensions.dart';
+import '../../../core/ui/app_theme_extensions.dart';
 import 'register_controller.dart';
 
 class RegisterPage extends StatefulWidget {

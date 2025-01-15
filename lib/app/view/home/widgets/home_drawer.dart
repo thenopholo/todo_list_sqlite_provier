@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 import 'package:provider/provider.dart';
 import '../../../core/auth/app_auth_provider.dart';
-import '../../../core/ui/theme_extensions.dart';
+import '../../../core/ui/app_theme_extensions.dart';
 import '../../../core/utils/message.dart';
 import '../../../services/user_service.dart';
 

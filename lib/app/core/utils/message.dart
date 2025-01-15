@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../ui/theme_extensions.dart';
+import '../ui/app_theme_extensions.dart';
 
 class Message {
   final BuildContext context;
