@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_todolist/app/view/splash/spalsh_page.dart';
 
 import 'core/database/sqlite_adm_connection.dart';
@@ -7,6 +8,7 @@ import 'core/navigator/todo_list_navigator.dart';
 import 'core/ui/todo_list_ui_config.dart';
 import 'view/auth/auth_module.dart';
 import 'view/home/home_module.dart';
+import 'view/tasks/tasks_module.dart';
 
 class AppWidget extends StatefulWidget {
   const AppWidget({super.key});
@@ -38,9 +40,18 @@ class _AppWidgetState extends State<AppWidget> {
       title: 'Flutter TodoList',
       theme: TodoListUiConfig.theme,
       navigatorKey: TodoListNavigator.navigatorKey,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
       routes: {
         ...AuthModule().routes,
         ...HomeModule().routes,
+        ...TasksModule().routes,
       },
       home: const SpalshPage(),
     );

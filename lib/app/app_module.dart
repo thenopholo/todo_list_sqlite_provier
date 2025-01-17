@@ -6,8 +6,8 @@ import 'app_widget.dart';
 import 'core/database/sqlite_connection_factory.dart';
 import 'repositories/user_repository.dart';
 import 'repositories/user_repository_impl.dart';
-import 'services/user_service.dart';
-import 'services/user_service_impl.dart';
+import 'services/user/user_service.dart';
+import 'services/user/user_service_impl.dart';
 import 'core/auth/app_auth_provider.dart';  
 
 class AppModule extends StatelessWidget {

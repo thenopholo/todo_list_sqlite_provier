@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import '../../../core/exception/auth_exception.dart';
 import '../../../core/notifier/default_change_notifier.dart';
-import '../../../services/user_service.dart';
+import '../../../services/user/user_service.dart';
 
 class LoginController extends DefaultChangeNotifier {
   final UserService _userService;

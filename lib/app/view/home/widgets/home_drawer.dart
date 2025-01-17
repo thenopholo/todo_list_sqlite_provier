@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../core/auth/app_auth_provider.dart';
 import '../../../core/ui/app_theme_extensions.dart';
 import '../../../core/utils/message.dart';
-import '../../../services/user_service.dart';
+import '../../../services/user/user_service.dart';
 
 class HomeDrawer extends StatelessWidget {
   final ValueNotifier<String> nameVN = ValueNotifier<String>('');
