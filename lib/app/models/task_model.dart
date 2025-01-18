@@ -22,4 +22,20 @@ class TaskModel {
       isDone: task['done'] == 1,
     );
   }
+
+  TaskModel copyWith({
+    int? id,
+    String? title,
+    String? description,
+    DateTime? date,
+    bool? isDone,
+  }) {
+    return TaskModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      date: date ?? this.date,
+      isDone: isDone ?? this.isDone,
+    );
+  }
 }

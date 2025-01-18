@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
       (timeStamp) {
         widget._homeController.loadAllTasks();
         widget._homeController.findTasks(filter: TaskFilterEnum.today);
-      }, 
+      },
     );
   }
 
@@ -82,13 +82,15 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
         actions: [
           PopupMenuButton(
-            icon: IconButton(
-              onPressed: () {},
-              icon: const Icon(TodoListIcons.filter),
+            onSelected: (value) => widget._homeController.showOrHideDoneTasks(),
+            icon: const Icon(
+              TodoListIcons.filter,
             ),
             itemBuilder: (_) => [
-              const PopupMenuItem<bool>(
-                child: Text('Concluídas'),
+              PopupMenuItem<bool>(
+                value: true,
+                child: Text(
+                    '${widget._homeController.showDoneTasks ? 'Ocultar' : 'Mostrar'} Concluídas'),
               )
             ],
           )

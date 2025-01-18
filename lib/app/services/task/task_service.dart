@@ -6,6 +6,5 @@ abstract interface class TaskService {
   Future<List<TaskModel>> getToday();
   Future<List<TaskModel>> getTomorrow();
   Future<WeekTaskModel> getWeek();
-  // Future<List<TaskModel>> getMonth();
-  // Future<List<TaskModel>> getAll();
+  Future<void> checkOrUncheckTask(TaskModel task);
 }
