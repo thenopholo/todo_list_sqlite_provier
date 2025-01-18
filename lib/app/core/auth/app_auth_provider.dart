@@ -19,7 +19,7 @@ class AppAuthProvider extends ChangeNotifier {
 
   void loadListener() {
     _auth.userChanges().listen((_) => notifyListeners());
-    _auth.idTokenChanges().listen(
+    _auth.authStateChanges().listen(
       (user) {
         if (user != null) {
           TodoListNavigator.to

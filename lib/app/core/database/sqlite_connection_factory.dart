@@ -14,7 +14,7 @@ class SqliteConnectionFactory {
   SqliteConnectionFactory._();
 
   factory SqliteConnectionFactory() {
-    // Feito com operdor ternário ??= que verifica se a variável _instance é nula, se sim, atribui o valor SqliteConnectionFactory._() a ela.
+    
     _instance ??= SqliteConnectionFactory._();
     return _instance!;
   }
@@ -23,17 +23,26 @@ class SqliteConnectionFactory {
     var databasePath = await getDatabasesPath();
     var finalDatabasePath = join(databasePath, _DATABASE_NAME);
     if (_db == null) {
-      _lock.synchronized(
+      await _lock.synchronized(
         () async {
-          // Feito com operdor ternário ??= que verifica se a variável _db é nula, se sim, atribui o valor await openDatabase(...) a ela.
-          _db ??= await openDatabase(
-            finalDatabasePath,
-            version: _VERSION,
-            onConfigure: _onConfigure,
-            onCreate: _onCreate,
-            onUpgrade: _onUpgrade,
-            onDowngrade: _onDowngrade,
-          );
+          if (_db == null) {
+          try {
+            print('Abrindo banco de dados em: $finalDatabasePath');
+            _db = await openDatabase(
+              finalDatabasePath,
+              version: _VERSION,
+              onConfigure: _onConfigure,
+              onCreate: _onCreate,
+              onUpgrade: _onUpgrade,
+              onDowngrade: _onDowngrade,
+            );
+            print('Banco de dados aberto com sucesso.');
+          } catch (e, stack) {
+            print('Erro ao abrir banco de dados: $e');
+            print(stack);
+            rethrow;
+          }
+        }
         },
       );
     }

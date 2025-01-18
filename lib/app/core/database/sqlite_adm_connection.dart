@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import 'sqlite_connection_factory.dart';
@@ -9,6 +8,7 @@ class SqliteAdmConnection with WidgetsBindingObserver {
     final connection = SqliteConnectionFactory();
     switch (state) {
       case AppLifecycleState.resumed:
+        connection.openConnection();
         break;
       case AppLifecycleState.detached:
       case AppLifecycleState.inactive:
@@ -20,5 +20,4 @@ class SqliteAdmConnection with WidgetsBindingObserver {
 
     super.didChangeAppLifecycleState(state);
   }
-  
 }

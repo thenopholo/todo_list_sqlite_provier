@@ -1,8 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../core/ui/app_theme_extensions.dart';
+import '../../../models/task_filter_enum.dart';
+import '../../../models/total_task_model.dart';
 
 class HomeFilterCard extends StatelessWidget {
-  const HomeFilterCard({super.key});
+  final String label;
+  final TaskFilterEnum taskFilterType;
+  final TotalTaskModel? totalTasks;
+  final bool isSelected;
+
+  const HomeFilterCard({
+    super.key,
+    required this.label,
+    required this.taskFilterType,
+    required this.isSelected,
+    this.totalTasks,
+  });
+
+  double _getDonePercentage() {
+    final total = totalTasks?.totalTasks ?? 0.0;
+    final isDone = totalTasks?.totalTasksDone ?? 0.1;
+
+    if (total == 0) {
+      return 0.0;
+    }
+
+    final percent = (isDone * 100) / total;
+    return percent / 100;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,10 +39,11 @@ class HomeFilterCard extends StatelessWidget {
           maxWidth: 150,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isSelected ? context.primaryColor : Colors.white,
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: context.primaryColor,
+            color:
+                isSelected ? context.primaryColorLight : context.primaryColor,
             width: 1,
           ),
           boxShadow: [
@@ -31,17 +59,35 @@ class HomeFilterCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '10 Tasks',
+              '${totalTasks?.totalTasks ?? 0} Tasks',
               style: context.titleText.copyWith(
                 fontSize: 10,
-                color: context.primaryColor,
+                color: isSelected ? Colors.white : context.primaryColor,
               ),
             ),
-            Text('Hoje', style: context.titleText),
-            LinearProgressIndicator(
-              value: 0.3,
-              backgroundColor: Colors.grey[200],
-              valueColor: AlwaysStoppedAnimation(context.primaryColor),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                color: isSelected ? Colors.white : context.primaryColor,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TweenAnimationBuilder<double>(
+              tween: Tween(
+                begin: 0.0,
+                end: _getDonePercentage(),
+              ),
+              duration: Duration(seconds: 1),
+              builder: (context, value, child) {
+                return LinearProgressIndicator(
+                  value: value,
+                  backgroundColor: Colors.grey[200],
+                  valueColor: AlwaysStoppedAnimation(isSelected
+                      ? context.primaryColorLight
+                      : context.primaryColor),
+                );
+              },
             ),
           ],
         ));
