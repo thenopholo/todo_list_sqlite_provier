@@ -47,7 +47,7 @@ class _TaskCreatePageState extends State<TaskCreatePage> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final screenWidth = MediaQuery.of(context).size.width;
+    // final screenWidth = MediaQuery.of(context).size.width;
     final appBarHeight = AppBar().preferredSize.height;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final totalHeight = screenHeight - appBarHeight - statusBarHeight;

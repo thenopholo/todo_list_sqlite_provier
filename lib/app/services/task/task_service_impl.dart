@@ -33,21 +33,21 @@ class TaskServiceImpl implements TaskService {
 
   @override
   Future<List<TaskModel>> getToday() {
-    final now = DateTime.now();
-    final startOfDay = DateTime(now.year, now.month,now.day,0,0,0);
-    final endOfDay = DateTime(now.year, now.month,now.day,23,59,59);
-    return _tasksRepository.findByPeriod(startOfDay, endOfDay);
-    // return _tasksRepository.findByPeriod(DateTime.now(), DateTime.now());
+    // final now = DateTime.now();
+    // final startOfDay = DateTime(now.year, now.month,now.day,0,0,0);
+    // final endOfDay = DateTime(now.year, now.month,now.day,23,59,59);
+    // return _tasksRepository.findByPeriod(startOfDay, endOfDay);
+    return _tasksRepository.findByPeriod(DateTime.now(), DateTime.now());
   }
 
   @override
   Future<List<TaskModel>> getTomorrow() {
-    final tomorrow = DateTime.now().add(const Duration(days: 1));
-    final startOfDay = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0, 0, 0);
-    final endOfDay = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 59, 59);
-    return _tasksRepository.findByPeriod(startOfDay, endOfDay);
-    // var tomorrow = DateTime.now().add(const Duration(days: 1));
-    // return _tasksRepository.findByPeriod(tomorrow, tomorrow);
+    // final tomorrow = DateTime.now().add(const Duration(days: 1));
+    // final startOfDay = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 0, 0, 0);
+    // final endOfDay = DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 59, 59);
+    // return _tasksRepository.findByPeriod(startOfDay, endOfDay);
+    var tomorrow = DateTime.now().add(const Duration(days: 1));
+    return _tasksRepository.findByPeriod(tomorrow, tomorrow);
   }
 
   @override

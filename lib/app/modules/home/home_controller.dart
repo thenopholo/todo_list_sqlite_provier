@@ -14,8 +14,8 @@ class HomeController extends DefaultChangeNotifier {
   TotalTaskModel? todayTotalTasks;
   TotalTaskModel? tomorrowTotalTasks;
   TotalTaskModel? weekTotalTasks;
-  TotalTaskModel? monthTotalTasks;
-  TotalTaskModel? allTasks;
+  List<TaskModel> allTasks = [];
+  List<TaskModel> filteredTasks = [];
 
   HomeController({required TaskService taskService})
       : _taskService = taskService;
@@ -25,8 +25,8 @@ class HomeController extends DefaultChangeNotifier {
       _taskService.getToday(),
       _taskService.getTomorrow(),
       _taskService.getWeek(),
-      _taskService.getMonth(),
-      _taskService.getAll(),
+      // _taskService.getMonth(),
+      // _taskService.getAll(),
     ]);
 
     final todayTasks = allTotalTasks[0] as List<TaskModel>;
@@ -56,6 +56,37 @@ class HomeController extends DefaultChangeNotifier {
     //   totalTasksDone: all.where((task) => task.isDone).length,
     // );
 
-    notifyListeners();  
+    notifyListeners();
+  }
+
+  Future<void> findTasks({required TaskFilterEnum filter}) async {
+    selectedFilter = filter;
+    showLoading();
+    notifyListeners();
+    List<TaskModel> tasks;
+
+    switch (filter) {
+      case TaskFilterEnum.today:
+        tasks = await _taskService.getToday();
+        break;
+      case TaskFilterEnum.tomorrow:
+        tasks = await _taskService.getTomorrow();
+        break;
+      case TaskFilterEnum.week:
+        final weekModel = await _taskService.getWeek();
+        tasks = weekModel.tasks;
+        break;
+    }
+
+    filteredTasks = tasks;
+    allTasks = tasks;
+    hideLoading();
+    notifyListeners();
+  }
+
+  Future<void> refreshPage() async {
+    await findTasks(filter: selectedFilter);
+    await loadAllTasks();
+    notifyListeners();
   }
 }

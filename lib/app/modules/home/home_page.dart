@@ -4,8 +4,10 @@ import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/auth/app_auth_provider.dart';
+import '../../core/notifier/default_listener_notifier.dart';
 import '../../core/ui/app_theme_extensions.dart';
 import '../../core/ui/todo_list_icons.dart';
+import '../../models/task_filter_enum.dart';
 import '../tasks/task_create_page.dart';
 import '../tasks/tasks_module.dart';
 import 'home_controller.dart';
@@ -29,11 +31,22 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    widget._homeController.loadAllTasks();
+    DefaultListenerNotifier(notifier: widget._homeController).listener(
+        context: context,
+        successCallback: (notifier, listenerInstance) {
+          listenerInstance.dispose();
+        });
+
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        widget._homeController.loadAllTasks();
+        widget._homeController.findTasks(filter: TaskFilterEnum.today);
+      }, 
+    );
   }
 
-  void _goToCreateTask(BuildContext context) {
-    Navigator.of(context).push(
+  Future<void> _goToCreateTask(BuildContext context) async {
+    await Navigator.of(context).push(
       PageRouteBuilder(
         transitionDuration: const Duration(milliseconds: 200),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -50,6 +63,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+    widget._homeController.refreshPage();
   }
 
   @override
