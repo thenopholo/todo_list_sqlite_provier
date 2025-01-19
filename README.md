@@ -14,7 +14,7 @@ A arquitetura MVVM (Model-View-ViewModel) organiza a aplicação em três camada
 - **ViewModel**: Intermedia a View e o Model, fornecendo dados já preparados para exibição e gerenciando a lógica de interação.
 - **View**: Responsável pela interface do usuário, consumindo o `ViewModel` para exibir dados e reagir às interações.
 
-Adicionalmente, foi incluída uma **camada de serviços** que contém as regras de negócio da aplicação. Essa camada isola as responsabilidades, deixando o repository focado exclusivamente em interações com fontes externas (ex.: banco de dados SQLite).
+Adicionalmente, foi incluída uma **camada de serviços** que contém as regras de negócio da aplicação. Essa camada isola as responsabilidades, deixando o repository focado exclusivamente em interações com fontes externas (ex.: banco de dados SQLite e Firebase).
 
 ---
 
@@ -41,7 +41,7 @@ A aplicação está dividida em módulos para melhorar a organização e facilit
 - **Pages**: Contém as telas (Views).
 - **ViewModels**: Gerencia o estado e lógica para as páginas.
 - **Services**: Regras de negócio.
-- **Repositories**: Interações com fontes de dados externas, como o SQLite.
+- **Repositories**: Interações com fontes de dados externas, como o SQLite e Firebase.
 
 ---
 
@@ -209,6 +209,7 @@ List<TaskModel> filterTasks(TaskFilterEnum filter) {
 - **Flutter**: Framework principal.
 - **SQLite**: Persistência de dados.
 - **Provider**: Gerenciamento de estado.
+- **Firebase**: Registro e login de usuário.
 
 ---
 
