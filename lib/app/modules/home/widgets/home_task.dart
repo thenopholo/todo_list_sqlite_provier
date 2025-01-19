@@ -31,7 +31,44 @@ class HomeTask extends StatelessWidget {
             children: context
                 .select<HomeController, List<TaskModel>>(
                     (controller) => controller.filteredTasks)
-                .map((t) => Task(model: t,))
+                .map(
+                  (task) => Dismissible(
+                    key: Key(task.id.toString()),
+                    direction: DismissDirection.horizontal,
+                    background: Container(
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                    ),
+                    secondaryBackground: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onDismissed: (direction) {
+                      if (direction == DismissDirection.endToStart) {
+                        context.read<HomeController>().deleteTask(task);
+                      } else {
+                        context.read<HomeController>().deleteTask(task);
+                      }
+                    },
+                    child: Task(model: task),
+                  ),
+                )
                 .toList(),
           )
         ],

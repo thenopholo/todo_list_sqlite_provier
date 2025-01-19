@@ -13,6 +13,7 @@ class TasksRepositoryImpl implements TasksRepository {
   @override
   Future<void> saveTask(String title, String description, DateTime date) async {
     final conn = await _connectionFactory.openConnection();
+
     await conn.insert('todo', {
       'id': null,
       'title': title,
@@ -29,7 +30,6 @@ class TasksRepositoryImpl implements TasksRepository {
       final endDate = DateTime(end.year, end.month, end.day, 23, 59, 59);
 
       final conn = await _connectionFactory.openConnection();
-
       final result = await conn.rawQuery('''
   SELECT * FROM todo
   WHERE date_time BETWEEN ? AND ?
@@ -49,13 +49,14 @@ class TasksRepositoryImpl implements TasksRepository {
   @override
   Future<List<TaskModel>> findAll() async {
     final conn = await _connectionFactory.openConnection();
+
     final result = await conn.rawQuery(
       '''
-    SELECT *
-    FROM todo
-    WHERE done = 0
-    ORDER BY date_time
-    ''',
+SELECT *
+FROM todo
+WHERE done = 0
+ORDER BY date_time
+''',
     );
 
     return result.map((e) => TaskModel.loadFromDB(e)).toList();
@@ -64,12 +65,31 @@ class TasksRepositoryImpl implements TasksRepository {
   @override
   Future<void> checkOrUncheckTask(TaskModel task) async {
     final conn = await _connectionFactory.openConnection();
+
     final done = task.isDone ? 1 : 0;
 
     await conn.rawUpdate('''
-      UPDATE todo
-      SET done = ?
-      WHERE id = ?
+  UPDATE todo
+  SET done = ?
+  WHERE id = ?
 ''', [done, task.id]);
+  }
+
+  @override
+  Future<void> deleteTask(TaskModel task) async {
+    if (task.id == null) {
+      throw ArgumentError('O ID da tarefa não pode ser nulo.');
+    }
+    final conn = await _connectionFactory.openConnection();
+    final rowsAffected = await conn.rawDelete('''
+  DELETE FROM todo
+  WHERE id = ?
+''', [task.id]);
+
+    if (rowsAffected == 0) {
+      log('Nenhuma tarefa encontrada com o ID: ${task.id}');
+    } else {
+      log('Tarefa com ID ${task.id} excluída com sucesso.');
+    }
   }
 }

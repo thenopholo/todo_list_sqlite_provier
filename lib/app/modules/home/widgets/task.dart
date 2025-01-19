@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/ui/app_theme_extensions.dart';
 import '../../../models/task_model.dart';
@@ -51,6 +53,59 @@ class Task extends StatelessWidget {
             dateFormat.format(model.date),
             style: TextStyle(
               decoration: model.isDone ? TextDecoration.lineThrough : null,
+            ),
+          ),
+          trailing: IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text(
+                        'Apagar demanda?',
+                        style: GoogleFonts.poppins(
+                          color: context.primaryColor,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: Text(
+                        'Está ação é irreversível.',
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                        ),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            context.read<HomeController>().deleteTask(model);
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Apagar',
+                            style: GoogleFonts.poppins(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text(
+                            'Cancelar',
+                            style: GoogleFonts.poppins(
+                              color: context.primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            icon: const Icon(
+              CupertinoIcons.delete,
+              color: Colors.red,
             ),
           ),
         ),
